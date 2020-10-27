@@ -81,3 +81,6 @@ Command | Usage
 `msgs on` | affichage des messages OTGW décodés
 `msgs off` | arrêt de l'affichage des messages OTGW
 `errors` | affichage du log des informations ou erreurs importantes
+
+## ATTENTION - SECURITE
+Il n'y a aucun mécanisme de sécurité pour protéger les accès telnet ou http. Il est donc **IMPERATIF** que les ports d'accès aux différents service telnet et http de OTGW_nodemcu ne soient pas accessibles de l'extérieur de votre réseau
