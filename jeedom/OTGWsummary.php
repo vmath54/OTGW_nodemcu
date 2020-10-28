@@ -65,14 +65,36 @@ if (count($summaryArray) != 25) {
   if ($debug) echo "erreur. Summary contient " . count($summaryArray) . " elements<br/>\n";
   exit();
 }
+
+//00000001/00001010,14.80,00000011/00000011,100.00,8/53,20.50,0.00,0.00,21.05,24.73,0.00,11.80,0.00,55/40,40/20,20.00,40.00,4064,5224,176,0,1942,2566,0,0
+  
 // on recupere les elements qui semblent importants
-$summaryParameters['status'] = $summaryArray[0];
-$summaryParameters['controlSetPoint'] = $summaryArray[1];
-$summaryParameters['relativeModulation'] = $summaryArray[6];
-$summaryParameters['roomTemperature'] = $summaryArray[8];
-$summaryParameters['boilerTemperature'] = $summaryArray[9];
-$summaryParameters['outsideTemperature'] = $summaryArray[11];
-$summaryParameters['returnWaterTemperature'] = $summaryArray[12];    // pas value
+$summaryParameters['status'] = $summaryArray[0];                     // msgID =  0.  ex : 00000001/00001010
+$summaryParameters['controlSetPoint'] = $summaryArray[1];            // msgID =  1.  ex : 14.80
+//$summaryParameters['remoteParameter'] = $summaryArray[2];          // msgID =  6.  ex : 00000011/00000011
+//$summaryParameters['maxRelativeModulation'] = $summaryArray[3];      // msgID =  14. ex : 100.00
+//$summaryParameters['boilerCapacityAndModulationLimits'] = $summaryArray[4];// msgID =  15. ex : 8/53
+//$summaryParameters['roomSetpoint'] = $summaryArray[5];               // msgID =  16. ex : 20.50
+$summaryParameters['relativeModulation'] = $summaryArray[6];         // msgID =  17. ex : 0.00
+//$summaryParameters['CHWaterPressure'] = $summaryArray[7];            // msgID =  18. ex : 0.00
+$summaryParameters['roomTemperature'] = $summaryArray[8];            // msgID =  24. ex : 21.05
+$summaryParameters['boilerTemperature'] = $summaryArray[9];          // msgID =  25. ex : 24.73
+//$summaryParameters['DHWTemperature'] = $summaryArray[10];            // msgID =  26. ex : 0.00
+$summaryParameters['outsideTemperature'] = $summaryArray[11];        // msgID =  27. ex : 11.80
+//$summaryParameters['returnWaterTemperature'] = $summaryArray[12];    // msgID =  28. ex : 0.00
+//$summaryParameters['DHWSetpointBoundaries'] = $summaryArray[13];     // msgID =  48. ex : 55/40
+//$summaryParameters['maxCHSetpointBoundaries'] = $summaryArray[14];   // msgID =  49. ex : 40/20
+//$summaryParameters['DHWSetpoint'] = $summaryArray[15];               // msgID =  56. ex : 20.00
+//$summaryParameters['maxCHSetpointBoundaries'] = $summaryArray[16];   // msgID =  49. ex : 40.00
+//$summaryParameters['burnerStarts'] = $summaryArray[17];              // msgID =  116. ex : 4064
+//$summaryParameters['CHPumpStarts'] = $summaryArray[18];              // msgID =  117. ex : 5224
+//$summaryParameters['DHWPumpValveStarts'] = $summaryArray[19];        // msgID = 118. ex : 176
+//$summaryParameters['DHWBurnerStarts'] = $summaryArray[20];           // msgID = 119. ex : 0
+//$summaryParameters['BurnerOperationHours'] = $summaryArray[21];      // msgID = 120. ex : 1942
+//$summaryParameters['CHPumpOperationHours'] = $summaryArray[22];      // msgID = 121. ex : 2566
+//$summaryParameters['DHWPumpValveOperationHours'] = $summaryArray[23];// msgID = 122. ex : 0
+//$summaryParameters['DHWBurnerOperationHours'] = $summaryArray[24];   // msgID = 123. ex : 0
+
 $summaryParameters['flame'] = getFlag($summaryParameters['status'], 12);   // 13eme flag en partant de la droite. 4eme de la gauche
 
 //if ($debug) var_dump($summaryParameters);
