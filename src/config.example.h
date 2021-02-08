@@ -3,6 +3,9 @@
 
 #include "Ethernet.h"
 
+#define USE_WATCHDOG                // for a user watchdog
+#define WATCHDOG_DELAY    70        // delay, in seconds, for user watchdog
+
 #define USE_TELNET_ADMIN
 #define USE_TELNET_DEBUG
 #define USE_HTTP_SERVER

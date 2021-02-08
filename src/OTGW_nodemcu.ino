@@ -20,12 +20,16 @@
 
 #define baud_rate                 9600 
 #define connectTimeoutMs                5000
-#define wifi_connect_timeout            60000  // reboot ESP32 after this timer
-#define wd2_interval                    1000
+#define wifi_connect_timeout            60000  // reboot ESP32 after this timer if no wifi
 
 // 
 // GLOBALS
 // 
+
+#ifdef USE_WATCHDOG
+Ticker t_watchdog;
+volatile int watchdog_count = 0;
+#endif    // USE_WATCHDOG
 
 Ticker t_uptime;
 
@@ -42,8 +46,7 @@ WiFiClient telnet_otgw_clients[telnet_OTGW_max_sessions];
 
 ESP8266WiFiMulti wifiMulti;
 
-unsigned long wifi_connect_timer                        = 0;
-unsigned long wd2_timer                                 = 0;
+unsigned long wifi_connect_timer = 0;
 
 // 
 // FUNCTIONS
@@ -81,6 +84,16 @@ void loop_restart(void) {
   start = true;
 }
 
+#ifdef USE_WATCHDOG
+void ISRwatchdog() {
+  watchdog_count++;
+  if (watchdog_count >= WATCHDOG_DELAY)
+  {
+    ESP.restart();
+  }
+}
+#endif    // USE_WATCHDOG
+
 void uptime_inc() {                               // called every second
   uptime++;
 #ifdef OTGW_PROCESS_SUMMARY
@@ -89,7 +102,6 @@ void uptime_inc() {                               // called every second
   }
 #endif  // OTGW_PROCESS_SUMMARY
 }
-
 
 
 int rssi_to_percent(float rssi) {
@@ -180,6 +192,10 @@ void reset_otgw() {
 // ################## setup ##########################
 
 void setup(void) {
+#ifdef USE_WATCHDOG
+  t_watchdog.attach(1.0, ISRwatchdog);
+#endif    // USE_WATCHDOG
+
   // Increment uptime every second
   t_uptime.attach(1.0, uptime_inc);
 
@@ -229,6 +245,10 @@ void loop(void) {
   uint8_t i;
   size_t serial_got = 0;                        // bytes received from OTGW
   
+#ifdef USE_WATCHDOG
+  watchdog_count = 0;
+#endif    // USE_WATCHDOG
+
   // Check WiFi status
   if(WiFi.status() != WL_CONNECTED) {
     connect_to_wifi();
@@ -371,6 +391,6 @@ if (serial_got == 0) {                 // we run action when no Derail data avai
 }
 
 #ifdef USE_TELNET_DEBUG  
-  telnet_debug_server_loop();
+telnet_debug_server_loop();
 #endif
 }
