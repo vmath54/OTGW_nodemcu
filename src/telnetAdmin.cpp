@@ -80,6 +80,8 @@ void parse_admin_cmd(WiFiClient client) {
   } else if (cmd.equals("$EXT")) {
     client.println("Goodbye...");
     client.stop();
+  } else if (cmd.equals("$VER")) {
+    client.printf("Version : %s%s", VERSION, EOL);
   } else if (cmd.equals("$HLP")) {
     client.println(ADMIN_USAGE);
   } else {

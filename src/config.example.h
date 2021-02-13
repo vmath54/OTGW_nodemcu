@@ -3,6 +3,8 @@
 
 #include "Ethernet.h"
 
+#define VERSION           "1.0.1"
+
 #define USE_WATCHDOG                // for a user watchdog
 #define WATCHDOG_DELAY    70        // delay, in seconds, for user watchdog
 

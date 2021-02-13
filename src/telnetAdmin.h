@@ -3,7 +3,7 @@
 
 #include "config.h"
 
-#define ADMIN_USAGE                    "$SYS $MEM $NET $WIF $UPD $RST ESP|OTGW $EXT $HLP"
+#define ADMIN_USAGE                    "$SYS $MEM $NET $WIF $UPD $RST ESP|OTGW $EXT $VER $HLP"
 
 #ifdef USE_TELNET_ADMIN
 
