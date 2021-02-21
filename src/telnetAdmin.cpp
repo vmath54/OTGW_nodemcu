@@ -70,6 +70,10 @@ void parse_admin_cmd(WiFiClient client) {
   } else if (cmd.equals("$UPD")) {
     client.printf("Update ESP via %s%s", esp_update_url, EOL);
     do_http_update(client);
+  } else if (cmd.equals("$RST ALL")) {
+    client.println("OTGW & ESP > Restart");
+    reset_otgw();
+    ESP.restart();
   } else if (cmd.equals("$RST ESP")) {
     client.println("ESP > Restart");
     ESP.restart();
